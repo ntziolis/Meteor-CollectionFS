@@ -30,6 +30,9 @@ FS.TempStore = new EventEmitter();
 // Create a tracker collection for keeping track of all chunks for any files that are currently in the temp store
 var tracker = FS.TempStore.Tracker = new Mongo.Collection('cfs._tempstore.chunks');
 
+// ensure that indexes are added as otherwise CollectionFS fails for Mongo >= 3.0
+tracker.rawCollection.ensureIndex({ "files_id": 1, "n": 1}); 
+
 /**
  * @property FS.TempStore.Storage
  * @type {StorageAdapter}
